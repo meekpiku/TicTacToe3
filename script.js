@@ -92,48 +92,26 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
 function Win(){
-    let winConditions = [
+  // Normal Win conditions
+    let horizontalConditions = [
 
-        //1st ROW WINS - HORIZONTAL
-        [0, 1, 2], [3, 4, 5], [1, 2, 3], [2, 3, 4],  
-        //2nd ROW WINS - HORIZONTAL
-        [6, 7, 8], [9, 10, 11], [7, 8, 9], [8, 9, 10], 
-        //3rd ROW WINS - HORIZONTAL
-        [12, 13, 14], [15, 16, 17], [13, 14, 15], [14, 15, 16],
-        //4th ROW WINS - HORIZONTAL
-        [18, 19, 20], [21, 22, 23], [19, 20, 21], [20, 21, 22],
-        //5th ROW WINS - HORIZONTAL
-        [24, 25, 26], [27, 28, 29], [25, 26, 27], [26, 27, 28],
+        // ROW WINS - HORIZONTAL
+        [0, 1, 2, 3, 4, 5],[6, 7, 8, 9, 10, 11],[12, 13, 14, 15, 16, 17],[18, 19, 20, 21, 22, 23],[24, 25, 26, 27, 28, 29],
 
+    ]
+    let verticalConditions =[
         //VERTICAL WINS 
-        [0, 6, 12], [1, 7, 13], [2, 8, 14], [3, 9, 15],
-
-        [4, 10, 16], [5, 11, 17], [6, 12, 18], [7, 13, 19],
-
-        [8, 14, 20], [9, 15, 21], [10, 16, 22], [11, 17, 23],
-
-        [12, 18, 24], [13, 19, 25], [14, 20, 26], [15, 21, 27],
-
-        [16, 22, 28], [17, 23, 29],
-
-        // DIAGONAL WINS
-        // Top-left to bottom-right diagonals
-        [0, 7, 14], [1, 8, 15], [2, 9, 16], [3, 10, 17], [4, 11, 18],
-
-        [6, 13, 20], [7, 14, 21], [8, 15, 22], [9, 16, 23], [10, 17, 24],
-
-        [12, 19, 26], [13, 20, 27], [14, 21, 28], [15, 22, 29],
-
-        // Top-right to bottom-left diagonals
-        [5, 10, 15], [4, 9, 14], [3, 8, 13], [2, 7, 12], [1, 6, 11],
-
-        [11, 16, 21], [10, 15, 20], [9, 14, 19], [8, 13, 18], [7, 12, 17],
-
-        [16, 21, 26], [15, 20, 25], [14, 19, 24], [13, 18, 23], [12, 17, 22],
-
-        [17, 22, 27],
-
-
+        [0, 6, 12, 18, 24 ],[1, 7, 13, 19, 25],[2, 8, 14, 20, 26],[3, 9, 15, 21, 27],[4, 10, 16, 22, 28],[5, 11, 17, 23, 29]
+    ]
+    // diagonal win conditions
+    let threeConditions = [
+      [2,7,12],[17,22,27],[3,10,17],[12,19,26]
+    ]
+    let fourConditions = [
+      [3,8,13,18],[2,9,16,23], [11,16,21,26],[6,13,20,27]
+    ]
+    let fiveConditions=[
+      [4,9,14,19,24],[5,10,15,20,25],[0,7,14,21,28],[1,8,15,22,29]
     ]
 
     let weirdConditions = [
@@ -141,20 +119,85 @@ function Win(){
     ];
 
     
-    for (let i = 0; i < winConditions.length; i++) {
-        let v0 = boxes[winConditions[i][0]].innerHTML;
-        let v1 = boxes[winConditions[i][1]].innerHTML;
-        let v2 = boxes[winConditions[i][2]].innerHTML;
+    for (let i = 0; i < horizontalConditions.length; i++) {
+        let v0 = boxes[horizontalConditions[i][0]].innerHTML;
+        let v1 = boxes[horizontalConditions[i][1]].innerHTML;
+        let v2 = boxes[horizontalConditions[i][2]].innerHTML;
+        let v3 = boxes[horizontalConditions[i][3]].innerHTML;
+        let v4 = boxes[horizontalConditions[i][4]].innerHTML;
+        let v5 = boxes[horizontalConditions[i][5]].innerHTML;
 
-        if (v0 !== "" && v0 === v1 && v0 === v2) {
+        if (v0 !== "" && v0 === v1 && v0 === v2 && v0 === v3 && v0 === v4 && v0 === v5) {
             // Highlight the winning cells
-            for (let j = 0; j < 3; j++) {
-                boxes[winConditions[i][j]].style.backgroundColor = "#FF2E63";
-                boxes[winConditions[i][j]].style.color = "#000";
+            for (let j = 0; j < 6; j++) {
+                boxes[horizontalConditions[i][j]].style.backgroundColor = "#FF2E63";
+                boxes[horizontalConditions[i][j]].style.color = "#000";
             }
             return true; 
         }
     }
+    for (let i = 0; i < verticalConditions.length; i++) {
+        let v0 = boxes[verticalConditions[i][0]].innerHTML;
+        let v1 = boxes[verticalConditions[i][1]].innerHTML;
+        let v2 = boxes[verticalConditions[i][2]].innerHTML;
+        let v3 = boxes[verticalConditions[i][3]].innerHTML;
+        let v4 = boxes[verticalConditions[i][4]].innerHTML;
+
+        if (v0 !== "" && v0 === v1 && v0 === v2 && v0 === v3 && v0 === v4) {
+            // Highlight the winning cells
+            for (let j = 0; j < 5; j++) {
+                boxes[verticalConditions[i][j]].style.backgroundColor = "#FF2E63";
+                boxes[verticalConditions[i][j]].style.color = "#000";
+            }
+            return true; 
+        }
+    }
+    for (let i = 0; i < fiveConditions.length; i++) {
+        let v0 = boxes[fiveConditions[i][0]].innerHTML;
+        let v1 = boxes[fiveConditions[i][1]].innerHTML;
+        let v2 = boxes[fiveConditions[i][2]].innerHTML;
+        let v3 = boxes[fiveConditions[i][3]].innerHTML;
+        let v4 = boxes[fiveConditions[i][4]].innerHTML;
+
+        if (v0 !== "" && v0 === v1 && v0 === v2 && v0 === v3 && v0 === v4) {
+            // Highlight the winning cells
+            for (let j = 0; j < 5; j++) {
+                boxes[fiveConditions[i][j]].style.backgroundColor = "#FF2E63";
+                boxes[fiveConditions[i][j]].style.color = "#000";
+            }
+            return true; 
+        }
+    }
+    for (let i = 0; i < threeConditions.length; i++) {
+        let v0 = boxes[threeConditions[i][0]].innerHTML;
+        let v1 = boxes[threeConditions[i][1]].innerHTML;
+        let v2 = boxes[threeConditions[i][2]].innerHTML;
+
+        if (v0 !== "" && v0 === v1 && v0 === v2) {
+            // Highlight the winning cells
+            for (let j = 0; j < 3; j++) {
+                boxes[threeConditions[i][j]].style.backgroundColor = "#FF2E63";
+                boxes[threeConditions[i][j]].style.color = "#000";
+            }
+            return true; 
+        }
+    }
+    for (let i = 0; i < fourConditions.length; i++) {
+        let v0 = boxes[fourConditions[i][0]].innerHTML;
+        let v1 = boxes[fourConditions[i][1]].innerHTML;
+        let v2 = boxes[fourConditions[i][2]].innerHTML;
+        let v3 = boxes[fourConditions[i][3]].innerHTML;
+
+        if (v0 !== "" && v0 === v1 && v0 === v2 && v0 === v3) {
+            // Highlight the winning cells
+            for (let j = 0; j < 4; j++) {
+                boxes[fourConditions[i][j]].style.backgroundColor = "#FF2E63";
+                boxes[fourConditions[i][j]].style.color = "#000";
+            }
+            return true; 
+        }
+    }
+
     for (let i = 0; i < weirdConditions.length; i++) {
         let z0 = boxes[weirdConditions[i][0]].innerHTML;
         let z1 = boxes[weirdConditions[i][1]].innerHTML;
@@ -478,8 +521,17 @@ function checkNextHumanMove() {
   return false;
 }
 
-function equals4(n1, n2, n3) {
-  return n1 == n2 && n2 == n3 && n3 && n1 != "";
+function equals6(n1, n2, n3, n4, n5, n6) {
+  return n1 == n2 && n2 == n3 && n3 ==n4 && n4==n5 && n5 == n6 &&  n1 != "";
+}
+function equals5(n1, n2, n3, n4, n5) {
+  return n1 == n2 && n2 == n3 && n3 ==n4 && n4==n5 &&  n1 != "";
+}
+function equals4(n1, n2, n3, n4) {
+  return n1 == n2 && n2 == n3 && n3 ==n4 && n1 != "";
+}
+function equals3(n1, n2, n3, ) {
+  return n1 == n2 && n2 == n3 && n1 != "";
 }
 
 function equals2(n1,n2){
@@ -491,148 +543,147 @@ function checkWinner() {
   //horizontal
   for (let i = 0; i < 5 ; i++) {
     if (
-      equals4(
+      equals6(
         gameTable[i][0],
         gameTable[i][1],
-        gameTable[i][2]
-      )
-    ) {
-      return gameTable[i][0];
-    }
-    if (
-      equals4(
-        gameTable[i][1],
         gameTable[i][2],
-        gameTable[i][3]
-      )
-    ) {
-      return gameTable[i][0];
-    }
-    if (
-      equals4(
-        gameTable[i][2],
-        gameTable[i][3],
-        gameTable[i][4]
-      )
-    ) {
-      return gameTable[i][0];
-    }
-    if (
-      equals4(
         gameTable[i][3],
         gameTable[i][4],
-        gameTable[i][5]
+        gameTable[i][5],
+
       )
     ) {
       return gameTable[i][0];
     }
+    // if (
+    //   equals4(
+    //     gameTable[i][1],
+    //     gameTable[i][2],
+    //     gameTable[i][3]
+    //   )
+    // ) {
+    //   return gameTable[i][0];
+    // }
+    // if (
+    //   equals4(
+    //     gameTable[i][2],
+    //     gameTable[i][3],
+    //     gameTable[i][4]
+    //   )
+    // ) {
+    //   return gameTable[i][0];
+    // }
+    // if (
+    //   equals4(
+    //     gameTable[i][3],
+    //     gameTable[i][4],
+    //     gameTable[i][5]
+    //   )
+    // ) {
+    //   return gameTable[i][0];
+    // }
     
   }
   //vertical
   for (let i = 0; i < 6; i++) {
     if (
-      equals4(
+      equals5(
         gameTable[0][i],
         gameTable[1][i],
-        gameTable[2][i]
-
-      )
-    ) {
-      return gameTable[0][i];
-    }
-    if (
-      equals4(
-        gameTable[1][i],
-        gameTable[2][i],
-        gameTable[3][i]
-
-      )
-    ) {
-      return gameTable[1][i];
-    }
-    if (
-      equals4(
         gameTable[2][i],
         gameTable[3][i],
         gameTable[4][i]
 
       )
     ) {
-      return gameTable[2][i];
+      return gameTable[0][i];
     }
+    // if (
+    //   equals4(
+    //     gameTable[1][i],
+    //     gameTable[2][i],
+    //     gameTable[3][i]
+
+    //   )
+    // ) {
+    //   return gameTable[1][i];
+    // }
+    // if (
+    //   equals4(
+    //     gameTable[2][i],
+    //     gameTable[3][i],
+    //     gameTable[4][i]
+
+    //   )
+    // ) {
+    //   return gameTable[2][i];
+    // }
     
   }
-  //diagonal
+  //diagonal right to left
   if (
-    equals4(gameTable[0][0], gameTable[1][1], gameTable[2][2])
-  ) {
-    return gameTable[0][0];
-  }
-  if (
-    equals4(gameTable[0][3], gameTable[1][2], gameTable[2][1])
-  ) {
-    return gameTable[0][3];
-  }
-  if (
-    equals4(gameTable[0][2], gameTable[1][1], gameTable[2][1])
+    equals3(gameTable[0][2], gameTable[1][1], gameTable[2][0])
   ) {
     return gameTable[0][2];
   }
   if (
-    equals4(gameTable[0][3], gameTable[1][2],gameTable[2][1])
+    equals4(gameTable[0][3], gameTable[1][2], gameTable[2][1], gameTable[3][0])
   ) {
     return gameTable[0][3];
   }
   if (
-    equals4(gameTable[3][0], gameTable[1][2],gameTable[2][1])
-  ) {
-    return gameTable[3][0];
-  }
-  if (
-    equals4(gameTable[4][0], gameTable[1][3],gameTable[2][2])
-  ) {
-    return gameTable[4][0];
-  }
-  if (
-    equals4(gameTable[0][4], gameTable[3][1],gameTable[2][2])
+    equals5(gameTable[0][4], gameTable[1][3], gameTable[2][2], gameTable[3][1], gameTable[4][0])
   ) {
     return gameTable[0][4];
   }
   if (
-    equals4(gameTable[1][3], gameTable[2][2],gameTable[3][1])
-  ) {
-    return gameTable[1][3];
-  }
-  if (
-    equals4(gameTable[0][5], gameTable[1][4],gameTable[2][3])
+    equals5(gameTable[0][5], gameTable[1][4],gameTable[2][3],gameTable[3][2],gameTable[4][1])
   ) {
     return gameTable[0][5];
   }
   if (
-    equals4(gameTable[3][2], gameTable[1][4],gameTable[2][3])
-  ) {
-    return gameTable[3][2];
-  }
-  if (
-    equals4(gameTable[4][1], gameTable[3][2],gameTable[2][3])
-  ) {
-    return gameTable[4][1];
-  }
-  if (
-    equals4(gameTable[1][5], gameTable[2][4],gameTable[3][3])
+    equals4(gameTable[1][5], gameTable[2][4],gameTable[3][3],gameTable[4][2])
   ) {
     return gameTable[1][5];
   }
   if (
-    equals4(gameTable[4][2], gameTable[2][4],gameTable[3][3])
-  ) {
-    return gameTable[4][2];
-  }
-  if (
-    equals4(gameTable[2][5], gameTable[3][4],gameTable[4][3])
+    equals3(gameTable[2][5], gameTable[3][4],gameTable[4][3])
   ) {
     return gameTable[2][5];
   }
+  //diagonal left to right
+  if (
+    equals3(gameTable[2][0], gameTable[3][1], gameTable[4][2])
+  ) {
+    return gameTable[2][0];
+  }
+  if (
+    equals4(gameTable[1][0], gameTable[2][1], gameTable[3][2], gameTable[4][3])
+  ) {
+    return gameTable[1][0];
+  }
+  if (
+    equals5(gameTable[0][0], gameTable[1][1], gameTable[2][2], gameTable[3][3], gameTable[4][4])
+  ) {
+    return gameTable[0][4];
+  }
+  if (
+    equals5(gameTable[0][1], gameTable[1][2],gameTable[2][3],gameTable[3][4],gameTable[4][5])
+  ) {
+    return gameTable[0][1];
+  }
+    //good
+  if (
+    equals4(gameTable[0][2], gameTable[1][3],gameTable[2][4],gameTable[3][5])
+  ) {
+    return gameTable[0][2];
+  }
+  if (
+    equals3(gameTable[0][3], gameTable[1][4],gameTable[2][5])
+  ) {
+    return gameTable[0][3];
+  }
+  
   // weird conditions 
   if (
     equals2(gameTable[0][1], gameTable[1][0])
